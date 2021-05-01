@@ -8,9 +8,7 @@ from normalized_labels import Labels
 
 class STLFakeDataset(Dataset):
     def __init__(self, dataset: DataFrame):
-        # self.prediction_data = Labels(dataset.iloc[:,1:].to_numpy().astype("float32"))
         predictors, targets = self.split_predictor(dataset)
-        # self.predictors = torch.tensor(Labels(predictors.values).labels, dtype=torch.float)
         self.predictors = torch.tensor(predictors.values, dtype=torch.float)
         self.targets = targets
 
@@ -19,7 +17,6 @@ class STLFakeDataset(Dataset):
 
     def __getitem__(self, index):
         return (self.predictors[index], self.targets[index].unsqueeze(0))
-        # return (self.prediction_data.labels[index], self.targets[index].unsqueeze(0))
 
     def split_predictor(self, data: DataFrame) -> Tuple[DataFrame, Series]:
         predictions = self.tensor_predictor(data.pop("Targets").to_list())
